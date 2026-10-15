@@ -1,0 +1,58 @@
+services:
+  previa-db:
+    image: mysql:8.0
+    container_name: previa-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: RootPasswordSecure2026!
+      MYSQL_DATABASE: previa
+      MYSQL_USER: previa_user
+      MYSQL_PASSWORD: ChangeThisSecurePassword!2026
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - previa_db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "previa_user", "-pChangeThisSecurePassword!2026"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  previa-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: previa-api
+    restart: unless-stopped
+    depends_on:
+      previa-db:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      DATABASE_PROVIDER: MySQL
+      ConnectionStrings__DefaultConnection: "Server=previa-db;Port=3306;Database=previa;User=previa_user;Password=ChangeThisSecurePassword!2026;CharSet=utf8mb4;"
+      JwtSettings__Secret: "PreviaSuperSecureSecretKey_ReplaceInProductionWithAtLeast32BytesLengthKey!"
+      JwtSettings__Issuer: "PreviaAuth"
+      JwtSettings__Audience: "PreviaPreschoolSaaS"
+      JwtSettings__ExpiryMinutes: 60
+      JwtSettings__RefreshTokenExpiryDays: 7
+      AiSettings__Provider: "OpenAI"
+      AiSettings__ApiKey: ""
+      AiSettings__Model: "gpt-4o-mini"
+    ports:
+      - "5123:5123"
+
+  previa-web:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: previa-web
+    restart: unless-stopped
+    depends_on:
+      - previa-api
+    ports:
+      - "80:80"
+
+volumes:
+  previa_db_data:

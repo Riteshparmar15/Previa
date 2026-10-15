@@ -1,0 +1,45 @@
+## Build and Architecture Folders
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio & VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.ide/
+
+## SQLite & Local DBs
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+## Node & Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+.npm/
+.oxlint-cache/
+
+## Secrets & Local Configs
+.env
+.env*.local
+*.key
+*.pfx
+
+## OS generated
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+## Test output
+TestResults/

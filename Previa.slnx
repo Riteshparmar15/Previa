@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Previa.Api/Previa.Api.csproj" />
+    <Project Path="src/Previa.Application/Previa.Application.csproj" />
+    <Project Path="src/Previa.Domain/Previa.Domain.csproj" />
+    <Project Path="src/Previa.Infrastructure/Previa.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Previa.Tests/Previa.Tests.csproj" />
+  </Folder>
+</Solution>
